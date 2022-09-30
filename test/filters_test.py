@@ -43,6 +43,13 @@ def test_filter_nl2br():
     assert s == '>aa<br/>bb<'
 
 
+def test_filter_nl2p():
+    t = '>{aa | nl2p}<'
+    d = {'aa': '1\n1\n\n2\n   \n   \n   \n3\n'}
+    s = yy.render(t, d)
+    assert s == '><p>1\n1</p>\n<p>2</p>\n<p>3</p><'
+
+
 def test_filter_strip():
     t = '>{aa | strip}<'
     d = {'aa': '  123  '}
