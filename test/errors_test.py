@@ -11,7 +11,7 @@ def test_no_var():
     assert err == ['NameError in PATH line 2', 'NameError in PATH line 3']
     assert yy.nows(s) == '||'
 
-    with yy.raises_template_error(NameError):
+    with yy.raises_runtime_error():
         yy.render(t, {})
 
 
@@ -27,7 +27,7 @@ def test_no_key():
     assert err == ['AttributeError in PATH line 3']
     assert yy.nows(s) == 'foo><'
 
-    with yy.raises_template_error(AttributeError):
+    with yy.raises_runtime_error():
         yy.render(t, d)
 
 
@@ -44,5 +44,5 @@ def test_code():
     assert err == ['ZeroDivisionError in PATH line 3']
     assert yy.nows(s) == 'foo><bar'
 
-    with yy.raises_template_error(ZeroDivisionError):
+    with yy.raises_runtime_error():
         yy.render(t, d)

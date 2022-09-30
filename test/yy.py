@@ -47,8 +47,8 @@ def nows(s):
     return re.sub(r'\s+', '', s.strip())
 
 
-def raises_template_error(exc):
-    return pytest.raises(exc)
+def raises_runtime_error():
+    return pytest.raises(jump.RuntimeError)
 
 
 def raises_compiler_error(match=None):
