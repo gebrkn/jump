@@ -81,6 +81,19 @@ def test_code_return_terminates_template():
     assert yy.nows(s) == f'abc'
 
 
+def test_code_return_non_string():
+    t = """
+        ignored
+        @code
+            return {'foo': 42}
+        @end
+        ignored
+    """
+
+    s = yy.render(t)
+    assert s == {'foo': 42}
+
+
 def test_code_runtime_error():
     t = """
         @#1
