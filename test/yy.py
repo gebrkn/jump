@@ -32,6 +32,7 @@ def render_err(src, args=None, **opts):
     def err(exc, path, line, env):
         path = os.path.basename(path)
         errors.append(f'{type(exc).__name__} in {path} line {line}')
+        return True
 
     res = jump.render(src, args, error=err, **opts)
     return res, errors
