@@ -121,6 +121,20 @@ def test_skip():
     s = yy.render(t)
     assert yy.nows(s) == '><'
 
+def test_comment():
+    t = """
+        >
+        @comment abc
+            @if 123
+            {foo}
+            @end
+            xyz
+        @end abc
+        <
+    """
+    s = yy.render(t)
+    assert yy.nows(s) == '><'
+
 
 def test_skip_no_label():
     t = """
