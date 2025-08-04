@@ -730,14 +730,14 @@ The message was: 5 klingon ships detected, heading 100-mark-200
 
 ### code
 
-Inserts raw python code. The indentation doesn't have to match the outer level, but has to be consistent within a block. `print` emits the content to the template output. Template arguments can be accessed via the `ARGS` dict.
+Inserts raw python code. The indentation doesn't have to match the outer level, but has to be consistent within a block. `print` emits the content to the template output. Template arguments can be accessed via the `ARGS` object, using dict or object notation.
 
 ###### example:
 ```
 <div>
     @code
         a = ARGS['first']
-        b = ARGS['second']
+        b = ARGS.second
         if a > b:
             print(a, 'is smarter than', b)
         else:
@@ -768,8 +768,7 @@ This is python {sys.version}
 ```
 ###### output:
 ```
-This is python 3.9.13 (main, May 24 2022, 21:13:51) 
-[Clang 13.1.6 (clang-1316.0.21.2)]
+This is python 3.10.13 (main, Jan 16 2024, 14:50:45) [Clang 15.0.0 (clang-1500.1.0.2.5)]
 ```
 
 ## other commands
@@ -908,21 +907,22 @@ An optional `error` callback is invoked when a runtime error occurs in the templ
 error(exc: Exception, source_path: str, source_lineno: int, env)
 ```
 
-where `env` is the jump runtime environment object. You can use `env.print()` to emit error messages in the template output and `env.ARGS` to access the arguments. If the callback did not raise an exception, the template is evaluated further.
+where `env` is the jump runtime environment object. You can use `env.print()` to emit error messages in the template output and `env.ARGS` to access the arguments. If the callback returns `True`, the template is evaluated further.
 
 ###### example:
 ```python
 import jump
 
 def log_error(exc, path, line, env):
-    env.print('<ERROR', exc, ', count is', env.ARGS.get('count'), end='>')
+    env.print('<ERROR', exc, ', count is', env.ARGS.count, end='>')
+    return True
 
 template = '''\
     first line
     undefined {foo} here
     next line
     runtime error {100 / count} here
-    next line
+    one more
 '''
 
 print(jump.render(template, {'count': 0}, error=log_error))
@@ -933,7 +933,7 @@ print(jump.render(template, {'count': 0}, error=log_error))
     undefined <ERROR name 'foo' is not defined , count is 0> here
     next line
     runtime error <ERROR division by zero , count is 0> here
-    next line
+    one more
 ```
 
 

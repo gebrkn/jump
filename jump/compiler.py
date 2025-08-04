@@ -139,7 +139,7 @@ class C:
 def $name$(_ENGINE, _ARGS, _ERRORHANDLER=None):
     _PATHS = $paths$
     _ENV = _ENGINE.environment(_PATHS, _ARGS, _ERRORHANDLER)
-    ARGS = _ENV.ARGS
+    _ = ARGS = _ENV.ARGS
     print =_ENV.print
     try:
         _ENV.pushbuf()
@@ -566,7 +566,7 @@ class Node:
                 ]
 
             else:
-                # small function            
+                # small function
 
                 res = tr.var()
                 code = [
@@ -811,16 +811,16 @@ class Node:
 
         def emit(self, tr: 'Translator'):
             """
-        
+
                 if A
                     aaa
                 elif B
                     bbb
                 else
                     ccc
-        
+
             is compiled to
-        
+
                 done = False
                 if not done:
                     x = A
@@ -837,8 +837,8 @@ class Node:
                     if x:
                         done = True
                         ccc
-        
-        
+
+
             """
 
             done = tr.var()
