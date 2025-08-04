@@ -517,13 +517,13 @@ or an expression form:
 
 ### code
 
-Inserts raw python code. The indentation doesn't have to match the outer level, but has to be consistent within a block. `print` emits the content to the template output. Template arguments can be accessed via the `ARGS` dict.
+Inserts raw python code. The indentation doesn't have to match the outer level, but has to be consistent within a block. `print` emits the content to the template output. Template arguments can be accessed via the `ARGS` object, using dict or object notation.
 
 @example
     <div>
         @code
             a = ARGS['first']
-            b = ARGS['second']
+            b = ARGS.second
             if a > b:
                 print(a, 'is smarter than', b)
             else:
@@ -643,20 +643,21 @@ An optional `error` callback is invoked when a runtime error occurs in the templ
     error(exc: Exception, source_path: str, source_lineno: int, env)
 @end xmp
 
-where `env` is the jump runtime environment object. You can use `env.print()` to emit error messages in the template output and `env.ARGS` to access the arguments. If the callback did not raise an exception, the template is evaluated further.
+where `env` is the jump runtime environment object. You can use `env.print()` to emit error messages in the template output and `env.ARGS` to access the arguments. If the callback returns `True`, the template is evaluated further.
 
 @eval
     import jump
 
     def log_error(exc, path, line, env):
-        env.print('<ERROR', exc, ', count is', env.ARGS.get('count'), end='>')
+        env.print('<ERROR', exc, ', count is', env.ARGS.count, end='>')
+        return True
 
     template = '''\
         first line
         undefined {foo} here
         next line
         runtime error {100 / count} here
-        next line
+        one more
     '''
 
     print(jump.render(template, {'count': 0}, error=log_error))

@@ -89,10 +89,3 @@ def test_builtin_name():
     d = {}
     s = yy.render(t, d)
     assert s == '><built-in function len>abs5<'
-
-
-def test_explicit_arg_dict():
-    t = '>{ARGS["foo bar"].boo}<'
-    d = {'foo bar': {'boo': 123}}
-    s = yy.render(t, d)
-    assert s == '>123<'
