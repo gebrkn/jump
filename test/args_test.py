@@ -16,6 +16,13 @@ def test_explicit_arg_get_object():
     assert s == '>123<'
 
 
+def test__arg_get():
+    t = '|{ARGS.get("yes")}|{ARGS.get("no")}|{ARGS.get("no2","dflt")}|'
+    d = {'yes': 'YES'}
+    s = yy.render(t, d)
+    assert s == '|YES||dflt|'
+
+
 def test_args_as_dict_in_code():
     t = """
         @code
